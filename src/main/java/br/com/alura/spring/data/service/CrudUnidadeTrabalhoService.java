@@ -1,19 +1,22 @@
 package br.com.alura.spring.data.service;
 
 import br.com.alura.spring.data.model.Cargo;
+import br.com.alura.spring.data.model.UnidadeTrabalho;
 import br.com.alura.spring.data.repository.CargoRepository;
+import br.com.alura.spring.data.repository.UnidadeTrabalhoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
 @Service
-public class CrudCargoService {
+public class CrudUnidadeTrabalhoService {
 
     private Boolean system = true;
-    private final CargoRepository cargoRepository;
+    private final UnidadeTrabalhoRepository unidadeTrabalhoRepository;
 
-    public CrudCargoService(CargoRepository cargoRepository) {
-        this.cargoRepository = cargoRepository;
+    public CrudUnidadeTrabalhoService(UnidadeTrabalhoRepository unidadeTrabalhoRepository) {
+
+        this.unidadeTrabalhoRepository = unidadeTrabalhoRepository;
     }
 
     public void inicial(Scanner scanner){
@@ -50,11 +53,14 @@ public class CrudCargoService {
 
     public void salvar(Scanner scanner){
         scanner = new Scanner(System.in);
-        System.out.println("Descrição do cargo");
+        System.out.println("Descrição da unidade");
         String descricao = scanner.next();
-        Cargo cargo = new Cargo();
-        cargo.setDescricao(descricao);
-        cargoRepository.save(cargo);
+        UnidadeTrabalho unidadeTrabalho = new UnidadeTrabalho();
+        unidadeTrabalho.setDescricao(descricao);
+        System.out.println("Endereço da unidade");
+        String endereco = scanner.next();
+        unidadeTrabalho.setEndereco(endereco);
+        unidadeTrabalhoRepository.save(unidadeTrabalho);
         System.out.println("Salvo!");
         listar();
     }
@@ -63,25 +69,28 @@ public class CrudCargoService {
         scanner = new Scanner(System.in);
         System.out.println("ID");
         int id = scanner.nextInt();
-        System.out.println("Descrição do cargo");
+        System.out.println("Descrição da unidade");
         String descricao = scanner.next();
-        Cargo cargo = new Cargo();
-        cargo.setId(id);
-        cargo.setDescricao(descricao);
-        cargoRepository.save(cargo);
+        UnidadeTrabalho unidadeTrabalho = new UnidadeTrabalho();
+        System.out.println("Endereço da unidade");
+        String endereco = scanner.next();
+        unidadeTrabalho.setEndereco(endereco);
+        unidadeTrabalho.setId(id);
+        unidadeTrabalho.setDescricao(descricao);
+        unidadeTrabalhoRepository.save(unidadeTrabalho);
         System.out.println("Editado!");
         listar();
     }
 
     public void listar(){
-        Iterable<Cargo> cargos = cargoRepository.findAll();
-        cargos.forEach(cargo -> System.out.println(cargo));
+        Iterable<UnidadeTrabalho> unidadeTrabalhos = unidadeTrabalhoRepository.findAll();
+        unidadeTrabalhos.forEach(unidadeTrabalho -> System.out.println(unidadeTrabalho));
     }
 
     public void excluir(Scanner scanner){
         System.out.println("ID");
         int id = scanner.nextInt();
-        cargoRepository.deleteById(id);
+        unidadeTrabalhoRepository.deleteById(id);
         System.out.println("Excluido!");
         listar();
     }

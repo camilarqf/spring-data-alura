@@ -6,29 +6,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
-@Table(name = "cargos")
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cargo {
+public class UnidadeTrabalho {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String descricao;
-    @OneToMany(mappedBy = "cargo")
+    private String endereco;
+    @ManyToMany(mappedBy = "unidadeTrabalhoList", fetch = FetchType.EAGER)
     private List<Funcionario> funcionarios;
 
     @Override
     public String toString() {
-        return "Cargo{" +
+        return "UnidadeTrabalho{" +
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
+                ", endereco='" + endereco + '\'' +
                 '}';
     }
 }

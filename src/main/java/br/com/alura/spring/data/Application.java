@@ -1,8 +1,9 @@
 package br.com.alura.spring.data;
 
-import br.com.alura.spring.data.model.Cargo;
 import br.com.alura.spring.data.repository.CargoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.alura.spring.data.service.CrudCargoService;
+import br.com.alura.spring.data.service.CrudFuncionarioService;
+import br.com.alura.spring.data.service.CrudUnidadeTrabalhoService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,10 +14,16 @@ import java.util.Scanner;
 public class Application implements CommandLineRunner {
 
 	private final CargoRepository cargoRepository;
+	private final CrudCargoService crudCargoService;
+	private final CrudUnidadeTrabalhoService crudUnidadeTrabalhoService;
+	private final CrudFuncionarioService crudFuncionarioService;
 	private Boolean system = true;
 
-	public Application(CargoRepository cargoRepository) {
+	public Application(CargoRepository cargoRepository, CrudCargoService crudCargoService, CrudUnidadeTrabalhoService crudUnidadeTrabalhoService, CrudFuncionarioService crudFuncionarioService) {
 		this.cargoRepository = cargoRepository;
+		this.crudCargoService = crudCargoService;
+		this.crudUnidadeTrabalhoService = crudUnidadeTrabalhoService;
+		this.crudFuncionarioService = crudFuncionarioService;
 	}
 
 	public static void main(String[] args) {
@@ -30,9 +37,25 @@ public class Application implements CommandLineRunner {
 		while (system){
 			System.out.println("Qual ação vc quer fazer?");
 			System.out.println("0 - Sair");
+			System.out.println("1 - Cargo");
+			System.out.println("2 - Unidade Trabalho");
+			System.out.println("3 - Funcionário");
+			int action = scanner.nextInt();
+
+			if(action == 1) {
+				crudCargoService.inicial(scanner);
+			}
+			if(action == 2){
+				crudUnidadeTrabalhoService.inicial(scanner);
+			}
+			if(action == 3){
+				crudFuncionarioService.inicial(scanner);
+			}
+
+			system = false;
+
+
 		}
-		Cargo cargo = new Cargo();
-		cargo.setDescricao("DESENVOLVEDOR DE SOFTWARE");
-		cargoRepository.save(cargo);
+
 	}
 }
