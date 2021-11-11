@@ -25,7 +25,7 @@ public class Funcionario {
     private String nome;
     private String cpf;
     private Double salario;
-    private Date dataContratacao;
+    private LocalDate dataContratacao;
     @ManyToOne
     @JoinColumn(name = "cargo_id", nullable = false)
     private Cargo cargo;

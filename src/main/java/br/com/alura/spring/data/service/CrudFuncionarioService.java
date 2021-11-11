@@ -8,6 +8,7 @@ import br.com.alura.spring.data.repository.FuncionarioRepository;
 import br.com.alura.spring.data.repository.UnidadeTrabalhoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -71,7 +72,7 @@ public class CrudFuncionarioService {
         funcionario.setSalario(salario);
         funcionario.setCargo(cargo(scanner).get());
         funcionario.setUnidadeTrabalhoList(lista(scanner));
-        funcionario.setDataContratacao(new Date());
+        funcionario.setDataContratacao(LocalDate.now());
         funcionarioRepository.save(funcionario);
         System.out.println("Salvo!");
         listar();
@@ -127,7 +128,7 @@ public class CrudFuncionarioService {
         funcionario.setSalario(salario);
         funcionario.setCargo(cargo(scanner).get());
         funcionario.setUnidadeTrabalhoList(lista(scanner));
-        funcionario.setDataContratacao(new Date());
+        funcionario.setDataContratacao(LocalDate.now());
         funcionarioRepository.save(funcionario);
         System.out.println("Editado!");
         listar();
