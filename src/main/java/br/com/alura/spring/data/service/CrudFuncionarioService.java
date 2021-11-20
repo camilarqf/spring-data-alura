@@ -6,8 +6,13 @@ import br.com.alura.spring.data.model.UnidadeTrabalho;
 import br.com.alura.spring.data.repository.CargoRepository;
 import br.com.alura.spring.data.repository.FuncionarioRepository;
 import br.com.alura.spring.data.repository.UnidadeTrabalhoRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -44,7 +49,7 @@ public class CrudFuncionarioService {
                     editar(scanner);
                     break;
                 case 3:
-                    listar();
+                    listar(scanner);
                     break;
                 case 4:
                     excluir(scanner);
@@ -75,7 +80,7 @@ public class CrudFuncionarioService {
         funcionario.setDataContratacao(LocalDate.now());
         funcionarioRepository.save(funcionario);
         System.out.println("Salvo!");
-        listar();
+        listar(scanner);
     }
 
     public Optional<Cargo> cargo (Scanner scanner){
@@ -131,11 +136,18 @@ public class CrudFuncionarioService {
         funcionario.setDataContratacao(LocalDate.now());
         funcionarioRepository.save(funcionario);
         System.out.println("Editado!");
-        listar();
+        listar(scanner);
     }
 
-    public void listar(){
-        Iterable<Funcionario> funcionarios = funcionarioRepository.findAll();
+    public void listar(Scanner scanner){
+        System.out.println("Qual página vc deseja visualizar?");
+        Integer page = scanner.nextInt();
+
+        PageRequest pageable =  PageRequest.of(page, 2, Sort.by(Sort.Direction.DESC, "nome"));
+
+        Page<Funcionario> funcionarios = funcionarioRepository.findAll(pageable);
+        System.out.println("Página atual " + funcionarios.getNumber());
+        System.out.println("Total de elementos " + funcionarios.getTotalElements());
         funcionarios.forEach(funcionario -> System.out.println(funcionario));
     }
 
@@ -144,7 +156,7 @@ public class CrudFuncionarioService {
         int id = scanner.nextInt();
         funcionarioRepository.deleteById(id);
         System.out.println("Excluido!");
-        listar();
+        listar(scanner);
     }
 
 
